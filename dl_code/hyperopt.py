@@ -166,7 +166,7 @@ class HyperParamOptimization(object):
             except (KeyboardInterrupt, SystemExit):
                 save_logs(all_logs, fout)
 
-def run_vggnet(n_params=300, fin="ibm_data_by_density_70.pkl", fout='test.pk', density=70, custom_params=None, optimizer=optim.Adam):
+def run_vggnet(n_params=300, fin="ibm_data_by_density_70.pkl", fout='test.pk', density=70, custom_params=None, optimizer=optim.Adam, verbose=False):
     user_params = {
         'random_seed': 42,
         'valid_batch_size' : 128,
@@ -246,7 +246,7 @@ def run_vggnet(n_params=300, fin="ibm_data_by_density_70.pkl", fout='test.pk', d
     hyperopt.build_random_grid(n_params)
     hyperopt.run(early_stopping_patience=user_params['early_stopping_patience'], verbose=False, fout=fout, custom_params=custom_params)
 
-def run_resnet(n_params=300, fin="ibm_data_by_density_70.pkl", fout='test.pk', density=70, custom_params=None, optimizer=optim.Adam):
+def run_resnet(n_params=300, fin="ibm_data_by_density_70.pkl", fout='test.pk', density=70, custom_params=None, optimizer=optim.Adam, verbose=False):
     user_params = {
         'random_seed': 42,
         'valid_batch_size' : 64,

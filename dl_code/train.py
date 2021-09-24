@@ -188,7 +188,7 @@ class DLTrainModule:
             self.best_performance = None
             return
         
-        # if verbose: print(self.model)
+        if verbose: print(self.model)
 
         if self.momentum: optimizer = self.optimize_fn(self.model.parameters(), lr=self.lr, momentum=self.momentum, weight_decay=self.weight_decay)
         else: optimizer = self.optimize_fn(self.model.parameters(), lr=self.lr, weight_decay=self.weight_decay)
@@ -198,8 +198,8 @@ class DLTrainModule:
         # best_model = None
         # best_performance = None
         stime = time.time()
-        # for epoch in tqdm(range(1, self.epochs + 1)):
-        for epoch in range(1, self.epochs + 1):
+        for epoch in tqdm(range(1, self.epochs + 1)):
+        # for epoch in range(1, self.epochs + 1):
             avg_train_loss = self.train_epoch(self.model, self.device, self.train_loader, optimizer, epoch, self.log_interval, loss_fn=self.loss_fn, verbose=verbose)
             avg_test_loss, avg_accuracy, _ = self.test_epoch(self.model, self.device, self.valid_loader, loss_fn=self.loss_fn, verbose=verbose)
             
