@@ -8,7 +8,7 @@ import numpy as np
 
 import pickle
 import time
-import datetime
+from datetime import datetime
 import os
 
 from dl_code.data_loader import *
