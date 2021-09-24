@@ -8,6 +8,8 @@ import numpy as np
 
 import pickle
 import time
+import datetime
+import os
 
 from dl_code.data_loader import *
 from dl_code.model import *
@@ -57,7 +59,12 @@ for n in __BEST_MODELS__:
     sets = __BEST_MODELS__[n]
     __BEST_MODEL_PARAMS__[n] = [{p:sets[j][i] for i,p in enumerate(__HYPERPARAMS__)} for j in range(len(sets))]
 
-
+def get_model_output_path():
+    dt_string = datetime.now().strftime("%Y%m%d")
+    result_path = dt_string + '_results'
+    if not os.path.exists(result_path):
+        os.mkdir(result_path)
+    return result_path
 
 def save_logs(all_logs, fout=None):
     print('save logs: {}'.format(fout))
@@ -86,6 +93,7 @@ class HyperParamOptimization(object):
     
     def build_random_grid(self, n_iter=100):
         rng = np.random.RandomState(self.random_seed) if self.random_seed else None
+        print(n_iter)
         self.param_list = list(ParameterSampler(self.param_grid, n_iter=n_iter, random_state=rng))
         print("num param sets:", len(self.param_list))
         return self.param_list
@@ -178,7 +186,7 @@ def run_vggnet(n_params=300, fin="ibm_data_by_density_70.pkl", fout='test.pk', d
         'save_model' : True,
         'log_interval' : 200,
         'use_cuda' : True,
-        'model_output' : '20191018_result/vgg_{}_d{}'.format(optimizer.__name__, density),
+        'model_output' : '{}/vgg_{}_d{}'.format(get_model_output_path(),optimizer.__name__, density),
         
         'model': InteractionValueModel,
         'to_tensor': ToTensor2D,
@@ -258,7 +266,7 @@ def run_resnet(n_params=300, fin="ibm_data_by_density_70.pkl", fout='test.pk', d
         'save_model' : True,
         'log_interval' : 200,
         'use_cuda' : True,
-        'model_output' : '20191022_result_train_all_density/resnet_{}_d{}'.format(optimizer.__name__, density),
+        'model_output' : '{}/resnet_{}_d{}'.format(get_model_output_path(), optimizer.__name__, density),
         
         'model': InteractionResnetModel,
         'to_tensor': ToTensor2D,
